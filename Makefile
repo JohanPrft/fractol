@@ -24,12 +24,6 @@ DIR_SRCS		=	sources/
 
 DIR_HEADERS		=	include/
 
-# ---- Libs variables ---- #
-
-SLX				=	slx/libslx.a
-
-LIBFT			=	libft/libft.a
-
 # ---- Files ---- #
 
 HEADERS_LIST	=	fractol.h
@@ -46,19 +40,25 @@ CC				=	cc
 
 CFLAGS			=	-Wall -Wextra -Werror
 
-LIBRARY		=	-Llibft -Lslx -lft -lmlx
+LIBRARY			=	-L${MLX_PATH} -lmlx
 
 # ---- OS Variables ---- #
 
 UNAME			=	$(shell uname -s)
 
 ifeq ($(UNAME), Linux)
+OS				=	linux
 LIBRARY		+= -lXext -lX11 -lm -lz
 endif
 
 ifeq ($(UNAME), Darwin)
+OS				=	macos
 LIBRARY		+=	-framework OpenGL -framework AppKit
 endif
+
+MLX_PATH		=	./mlx/${OS}/
+
+MLX				=	${MLX_PATH}libmlx.a
 
 # ---- Commands ---- #
 
@@ -75,22 +75,19 @@ opti			:
 
 # ---- Variables Rules ---- #
 
-${NAME}			:	${OBJS}
+${NAME}			:	${OBJS} ${HEADERS} ${MLX}
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${LIBRARY} -o ${NAME}
 
 # ---- Lib rules ---- #
 
-${SLX}			:
-					make -C slx
-
-${LIBFT}		:
-					make -C libft
+${MLX}			:	FORCE
+					make -C ${MLX_PATH}
 
 FORCE			:
 
 # ---- Compiled Rules ---- #
 
-${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c Makefile ${HEADERS} ${LIBFT} ${SLX}
+${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} -c $< -o $@
 
 ${DIR_OBJS}		:
@@ -98,19 +95,22 @@ ${DIR_OBJS}		:
 
 # ---- Usual Rules ---- #
 
+run				:	all
+					./${NAME}
+
+leaks			:	all
+					leaks --atExit -- ./${NAME}
+
 clean			:
 					${RM} ${OBJS}
-					make -C slx clean
-					make -C libft clean
+					make -C ${MLX_PATH} clean
 
 fclean			:	clean
 					${RM} ${NAME}
-					make -C slx fclean
-					make -C libft fclean
 
 re				:	fclean all
 
 debug			:
-					@echo ${OBJS} ${HEADERS} ${LIBFT} ${SLX}
+					@echo ${OBJS} ${HEADERS} ${MLX}
 
-.PHONY:	all clean fclean re debug
+.PHONY:	all run clean fclean re debug

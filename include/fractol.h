@@ -21,4 +21,14 @@ typedef struct	s_data {
 	int		endian;
 }				t_data;
 
+typedef struct	s_vector
+{
+	int	a;
+	int	b;
+}				t_vector;
+
+# include "../mlx/macos/mlx.h"
+# include <stdlib.h>
+# include <unistd.h>
+
 #endif
