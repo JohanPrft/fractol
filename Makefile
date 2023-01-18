@@ -28,7 +28,7 @@ DIR_HEADERS		=	include/
 
 HEADERS_LIST	=	fractol.h
 
-SRCS_LIST		=	main.c
+SRCS_LIST		=	main.c		init.c		mandelbrot.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -36,9 +36,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 # ---- Compilation ---- #
 
-CC				=	cc
-
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -g
 
 LIBRARY			=	-L${MLX_PATH} -lmlx
 
@@ -61,8 +59,6 @@ MLX_PATH		=	./mlx/${OS}/
 MLX				=	${MLX_PATH}libmlx.a
 
 # ---- Commands ---- #
-
-RM				=	rm -rf
 
 MKDIR			=	mkdir -p
 
