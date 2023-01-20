@@ -22,27 +22,29 @@ t_point convert_point_repere(t_coord_syst win_size, t_coord_syst mandel, t_point
 double divergent_speed (t_coord_syst win_size, t_coord_syst mandel_size, t_point p)
 {
 	int 	max_iter;
+	t_point	z;
 	int 	i;
 
 	p = convert_point_repere(win_size, mandel_size, p);
-	//printf("%f - %f\n", p.a, p.b);
+	z = make_point(0, 0); //essayer d'autres valeurs
 	max_iter = 30;
 	i = 0;
 	while (++i < max_iter)
 	{
-		p = make_point(p.a * p.a - p.b * p.b, 2 * p.a * p.b); // ajouter c
-		if (p.a * p.a + p.b * p.b > 4)
+		z = make_point(z.a * z.a - z.b * z.b + p.a, 2 * z.a * z.b + p.b);
+		if (z.a * z.a + z.b * z.b > 4)
 		{
-			return ((double)i / max_iter);
+			return ((double)i / max_iter / 4);
 		}
 	}
-	return (1);
+	return (0);
 }
 
 void	mandelbrot(t_coord_syst win_size, t_coord_syst mandel_size, t_data	*img)
 {
 	int		i;
 	int 	j;
+	double 	div;
 
 	i = (int)win_size.max.b + 1;
 	while (--i >= 0)
@@ -50,12 +52,8 @@ void	mandelbrot(t_coord_syst win_size, t_coord_syst mandel_size, t_data	*img)
 		j = (int)win_size.max.a + 1;
 		while (--j >= 0)
 		{
-			if (divergent_speed(win_size, mandel_size, make_point(j, i)) == 1)
-			{
-				mlx_pixel_put_img(img, j, i, 0xFFFFFF);
-			}
-			else
-				mlx_pixel_put_img(img, j, i, 0x000000);
+			div = divergent_speed(win_size, mandel_size, make_point(j, i));
+			mlx_pixel_put_img(img, j, i, 0x008585 * div);
 		}
 	}
 }

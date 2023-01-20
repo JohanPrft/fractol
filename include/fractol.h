@@ -33,6 +33,15 @@ typedef struct	s_coord_syst
 	t_point	max;
 }				t_coord_syst;
 
+typedef struct	s_mlx
+{
+	void			*mlx;
+	void			*win;
+	t_coord_syst	win_size;
+	t_coord_syst	mandel_size;
+	t_data			img;
+}				t_mlx;
+
 # include "../mlx/macos/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>

@@ -27,9 +27,9 @@ t_coord_syst	init_mandel_size(void)
 {
 	t_coord_syst	mandelbrot;
 
-	mandelbrot.min.a = -2;
+	mandelbrot.min.a = -1.8;
 	mandelbrot.min.b = -2;
-	mandelbrot.max.a = 2;
+	mandelbrot.max.a = 2.2;
 	mandelbrot.max.b = 2;
 	return (mandelbrot);
 	/*
