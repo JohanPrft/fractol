@@ -40,6 +40,8 @@ typedef struct	s_mlx
 	t_coord_syst	win_size;
 	t_coord_syst	mandel_size;
 	t_data			img;
+	double			zoom_factor;
+	t_point			cursor_pos;
 }				t_mlx;
 
 # include "../mlx/macos/mlx.h"
@@ -47,13 +49,12 @@ typedef struct	s_mlx
 # include <unistd.h>
 # include <stdio.h>
 
-t_coord_syst	init_window_size();
-t_coord_syst	init_mandel_size(void);
+t_mlx	init_all(void);
 t_data			create_image(void *mlx, t_coord_syst win_size);
 
-t_point 		convert_point_repere(t_coord_syst win_size, t_coord_syst mandel, t_point point);
-double 			divergent_speed (t_coord_syst win_size, t_coord_syst mandel_size, t_point p);
-void			mandelbrot(t_coord_syst win_size, t_coord_syst mandel_size, t_data	*img);
+t_point 		convert_point_repere(t_mlx *mlx, t_point point);
+double 			divergent_speed (t_mlx *mlx, t_point p);
+void			mandelbrot(t_mlx *mlx);
 
 t_point			make_point(double a, double b);
 void			mlx_pixel_put_img(t_data *data, int x, int y, int color);

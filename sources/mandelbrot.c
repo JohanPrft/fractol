@@ -12,20 +12,20 @@
 
 #include "../include/fractol.h"
 
-t_point convert_point_repere(t_coord_syst win_size, t_coord_syst mandel, t_point point)
+t_point convert_point_repere(t_mlx *mlx, t_point point)
 {
-	point.a = point.a * ((mandel.max.a - mandel.min.a) / win_size.max.a) - mandel.max.a;
-	point.b = point.b * ((mandel.max.b - mandel.min.b) / win_size.max.b) - mandel.max.b;
+	point.a = point.a * ((mlx->mandel_size.max.a - mlx->mandel_size.min.a) / (mlx->win_size.max.a * mlx->zoom_factor)) - mlx->mandel_size.max.a;
+	point.b = point.b * ((mlx->mandel_size.max.b - mlx->mandel_size.min.b) / (mlx->win_size.max.b * mlx->zoom_factor)) - mlx->mandel_size.max.b;
 	return (point);
 }
 
-double divergent_speed (t_coord_syst win_size, t_coord_syst mandel_size, t_point p)
+double divergent_speed(t_mlx *mlx, t_point p)
 {
 	int 	max_iter;
 	t_point	z;
 	int 	i;
 
-	p = convert_point_repere(win_size, mandel_size, p);
+	p = convert_point_repere(mlx, p);
 	z = make_point(0, 0); //essayer d'autres valeurs
 	max_iter = 30;
 	i = 0;
@@ -40,20 +40,20 @@ double divergent_speed (t_coord_syst win_size, t_coord_syst mandel_size, t_point
 	return (0);
 }
 
-void	mandelbrot(t_coord_syst win_size, t_coord_syst mandel_size, t_data	*img)
+void	mandelbrot(t_mlx *mlx)
 {
 	int		i;
 	int 	j;
 	double 	div;
 
-	i = (int)win_size.max.b + 1;
+	i = (int)mlx->win_size.max.b + 1;
 	while (--i >= 0)
 	{
-		j = (int)win_size.max.a + 1;
+		j = (int)mlx->win_size.max.a + 1;
 		while (--j >= 0)
 		{
-			div = divergent_speed(win_size, mandel_size, make_point(j, i));
-			mlx_pixel_put_img(img, j, i, 0x008585 * div);
+			div = divergent_speed(mlx, make_point(j, i));
+			mlx_pixel_put_img(&mlx->img, j, i, 0x008585 * div);
 		}
 	}
 }

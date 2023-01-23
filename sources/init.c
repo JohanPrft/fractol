@@ -12,6 +12,7 @@
 
 #include "../include/fractol.h"
 
+
 t_coord_syst	init_window_size()
 {
 	t_coord_syst	window_size;
@@ -40,14 +41,25 @@ t_coord_syst	init_mandel_size(void)
 	*/
 }
 
-t_data	create_image(void *mlx, t_coord_syst win_size)
+t_mlx	init_all(void)
 {
-	t_data	img;
+	t_mlx mlx;
 
-	img.img = mlx_new_image(mlx, (int)win_size.max.a, (int)win_size.max.b);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	return (img);
+	mlx.win_size = init_window_size();
+	mlx.mandel_size = init_mandel_size();
+	mlx.zoom_factor = 1;
+	mlx.cursor_pos.a = 0;
+	mlx.cursor_pos.b = 0;
+	mlx.mlx = mlx_init();
+	return (mlx);
 }
+
+//t_data	create_image(void *mlx, t_coord_syst win_size)
+//{
+//	t_data	img;
+//
+//	return (img);
+//}
 
 void	modif_image(t_coord_syst win_size, t_data	*img)
 {

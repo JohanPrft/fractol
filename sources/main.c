@@ -29,61 +29,61 @@ void	mlx_pixel_put_img(t_data *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-int key_hook(int keycode)
+int key_hook(int keycode, t_mlx *mlx)
 {
+	(void)mlx;
 	if (keycode == 53)
 		exit (0);
-
+	else if (keycode == 3) // key = F
+	{
+		printf("f\n");
+		mandelbrot(mlx);
+		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+	}
 	return (1);
 }
 
-int hook(t_mlx mlx)
+int hook(t_mlx *mlx)
 {
 	(void)mlx;
-	//mlx_destroy_image(&mlx.mlx, &mlx.img);
-	//mlx_destroy_window(&mlx.mlx, &mlx.win);
 	exit (0);
 }
 
-int mouse_hook(int keycode, t_mlx mlx)
+int mouse_hook(int keycode, int x, int y, t_mlx *mlx)
 {
 	(void)mlx;
+	mlx->cursor_pos = convert_point_repere(mlx, make_point(x, y));
+	printf("x = %f, y = %f\n", mlx->cursor_pos.a, mlx->cursor_pos.b);
+
 	if (keycode == 4)
-	{
-		printf("up \n");
-	}
+		mlx->zoom_factor *= 1.1;
 	else if (keycode == 5)
-		printf("down \n");
+		mlx->zoom_factor *= 0.9;
+	mandelbrot(mlx);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 	return (1);
 }
 
-int	render_next_frame(t_mlx mlx)
+int	render_next_frame(t_mlx *mlx)
 {
 	(void)mlx;
-	// mlx_destroy_image(&mlx.mlx, &mlx.img);
-	// mandelbrot(mlx.win_size, mlx.mandel_size, &mlx.img);
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 	return (0);
 }
 
 void	mlx(void)
 {
-	t_mlx			mlx;
+	t_mlx	mlx;
 
-	mlx.win_size = init_window_size();
-	mlx.mandel_size = init_mandel_size();
-	mlx.mlx = mlx_init();
-
+	mlx = init_all();
 	mlx.win = mlx_new_window(mlx.mlx, (int)mlx.win_size.max.a, (int)mlx.win_size.max.b, "🥵🥵🥵");
-	mlx.img = create_image(mlx.mlx, mlx.win_size);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0); // crash si pas de premier affichage de rien
-	mandelbrot(mlx.win_size, mlx.mandel_size, &mlx.img);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+	mlx.img.img = mlx_new_image(mlx.mlx, (int)mlx.win_size.max.a, (int)mlx.win_size.max.b);
+	mlx.img.addr = mlx_get_data_addr(mlx.img.img, &mlx.img.bits_per_pixel, &mlx.img.line_length, &mlx.img.endian);
 
-	mlx_key_hook(mlx.win, key_hook, NULL);
+	mlx_key_hook(mlx.win, key_hook, &mlx);
 	mlx_mouse_hook(mlx.win, mouse_hook, &mlx);
-	mlx_loop_hook(mlx.mlx, render_next_frame, &mlx);
+//	mlx_loop_hook(mlx.mlx, render_next_frame, &mlx);
 	mlx_hook(mlx.win, 17, 0, hook, &mlx);
+
 	mlx_loop(mlx.mlx);
 }
 
