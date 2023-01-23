@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jprofit <jprofit@student.42.fr>            +#+  +:+       +#+         #
+#    By: imac <imac@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 10:15:50 by jprofit           #+#    #+#              #
-#    Updated: 2023/01/16 10:15:57 by jprofit          ###   ########.fr        #
+#    Updated: 2023/01/23 10:38:00 by imac             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,8 @@ MLX				=	${MLX_PATH}libmlx.a
 
 MKDIR			=	mkdir -p
 
+RM				=	rm -rf
+
 # ********* RULES ******** #
 
 all				:	${NAME}
@@ -71,7 +73,7 @@ opti			:
 
 # ---- Variables Rules ---- #
 
-${NAME}			:	${OBJS} ${HEADERS} ${MLX}
+${NAME}			:	${DIR_OBJS} ${OBJS} ${HEADERS} ${MLX}
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${LIBRARY} -o ${NAME}
 
 # ---- Lib rules ---- #
@@ -102,7 +104,7 @@ clean			:
 					make -C ${MLX_PATH} clean
 
 fclean			:	clean
-					${RM} ${NAME}
+					${RM} ${NAME} ${DIR_OBJS}
 
 re				:	fclean all
 

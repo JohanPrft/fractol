@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jprofit <jprofit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: imac <imac@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 15:47:00 by jprofit           #+#    #+#             */
-/*   Updated: 2023/01/16 11:28:10 by jprofit          ###   ########.fr       */
+/*   Updated: 2023/01/23 10:28:20 by imac             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,13 @@ int hook(t_mlx mlx)
 	exit (0);
 }
 
-int mouse_hook(int keycode)
+int mouse_hook(int keycode, t_mlx mlx)
 {
+	(void)mlx;
 	if (keycode == 4)
+	{
 		printf("up \n");
+	}
 	else if (keycode == 5)
 		printf("down \n");
 	return (1);
@@ -57,9 +60,9 @@ int mouse_hook(int keycode)
 int	render_next_frame(t_mlx mlx)
 {
 	(void)mlx;
-	mlx_destroy_image(&mlx.mlx, &mlx.img);
-	mandelbrot(mlx.win_size, mlx.mandel_size, &mlx.img);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+	// mlx_destroy_image(&mlx.mlx, &mlx.img);
+	// mandelbrot(mlx.win_size, mlx.mandel_size, &mlx.img);
+	// mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 	return (0);
 }
 
@@ -73,12 +76,12 @@ void	mlx(void)
 
 	mlx.win = mlx_new_window(mlx.mlx, (int)mlx.win_size.max.a, (int)mlx.win_size.max.b, "🥵🥵🥵");
 	mlx.img = create_image(mlx.mlx, mlx.win_size);
-	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
+	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0); // crash si pas de premier affichage de rien
 	mandelbrot(mlx.win_size, mlx.mandel_size, &mlx.img);
 	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img, 0, 0);
 
 	mlx_key_hook(mlx.win, key_hook, NULL);
-	mlx_mouse_hook(mlx.win, mouse_hook, NULL);
+	mlx_mouse_hook(mlx.win, mouse_hook, &mlx);
 	mlx_loop_hook(mlx.mlx, render_next_frame, &mlx);
 	mlx_hook(mlx.win, 17, 0, hook, &mlx);
 	mlx_loop(mlx.mlx);

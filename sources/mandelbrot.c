@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jprofit <jprofit@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: imac <imac@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:44:00 by jprofit           #+#    #+#             */
-/*   Updated: 2023/01/18 15:44:00 by jprofit          ###   ########.fr       */
+/*   Updated: 2023/01/23 10:36:29 by imac             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,9 @@ void	mandelbrot(t_coord_syst win_size, t_coord_syst mandel_size, t_data	*img)
 			mlx_pixel_put_img(img, j, i, 0x008585 * div);
 		}
 	}
+}
+
+void	mandelbrot_zoom_up(t_mlx mlx)
+{
+	(void)mlx;
 }
