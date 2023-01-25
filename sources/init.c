@@ -13,26 +13,21 @@
 #include "../include/fractol.h"
 
 
-t_coord_syst	init_window_size()
+void	init_window_size(t_mlx *mlx)
 {
-	t_coord_syst	window_size;
-
-	window_size.min.a = 0;
-	window_size.min.b = 0;
-	window_size.max.a = 1000;
-	window_size.max.b = 1000;
-	return (window_size);
+	mlx->win_size.min.a = 0;
+	mlx->win_size.min.b = 0;
+	mlx->win_size.max.a = 750;
+	mlx->win_size.max.b = 750;
 }
 
-t_coord_syst	init_mandel_size(void)
+void	init_mandel_size(t_mlx *mlx)
 {
-	t_coord_syst	mandelbrot;
+	mlx->mandel_size.min.a = -1.8;
+	mlx->mandel_size.min.b = -2;
+	mlx->mandel_size.max.a = 2.2;
+	mlx->mandel_size.max.b = 2;
 
-	mandelbrot.min.a = -1.8;
-	mandelbrot.min.b = -2;
-	mandelbrot.max.a = 2.2;
-	mandelbrot.max.b = 2;
-	return (mandelbrot);
 	/*
 	const double CxMin=-2.5;
 	const double CxMax=1.5;
@@ -41,17 +36,26 @@ t_coord_syst	init_mandel_size(void)
 	*/
 }
 
-t_mlx	init_all(void)
+void	mult_mandel_size(t_mlx *mlx, double x)
 {
-	t_mlx mlx;
+	mlx->mandel_size.min.a *= x;
+	mlx->mandel_size.min.b *= x;
+	mlx->mandel_size.max.a *= x;
+	mlx->mandel_size.max.b *= x;
+}
 
-	mlx.win_size = init_window_size();
-	mlx.mandel_size = init_mandel_size();
-	mlx.zoom_factor = 1;
-	mlx.cursor_pos.a = 0;
-	mlx.cursor_pos.b = 0;
-	mlx.mlx = mlx_init();
-	return (mlx);
+
+t_mlx	init_all(t_mlx *mlx)
+{
+	init_window_size(mlx);
+	init_mandel_size(mlx);
+	mlx->zoom_factor = 1;
+	mlx->cursor_pos.a = 0;
+	mlx->cursor_pos.b = 0;
+	mlx->max_iter = 30;
+	mlx->smooth = 1;
+	mlx->mlx = mlx_init();
+	return (*mlx);
 }
 
 //t_data	create_image(void *mlx, t_coord_syst win_size)
