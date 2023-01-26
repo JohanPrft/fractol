@@ -12,6 +12,23 @@
 
 #include "../include/fractol.h"
 
+void	compute_mandel_size(t_mlx *mlx)
+{
+	mlx->mandel_size.min.a *= mlx->zoom_factor;
+	mlx->mandel_size.min.a += mlx->offset.a;
+
+	mlx->mandel_size.max.a *= mlx->zoom_factor;
+	mlx->mandel_size.max.a += mlx->offset.a;
+
+	mlx->mandel_size.min.b *= mlx->zoom_factor;
+	mlx->mandel_size.min.b += mlx->offset.b;
+
+	mlx->mandel_size.max.b *= mlx->zoom_factor;
+	mlx->mandel_size.max.b += mlx->offset.b;
+
+	printf("\nmin x %f, max x %f\nmin y %f, max y %f\n", mlx->mandel_size.min.a, mlx->mandel_size.max.a, mlx->mandel_size.min.b, mlx->mandel_size.max.b);
+}
+
 t_point	convert_point_repere(t_mlx *mlx, t_point point)
 {
 	point.a = point.a * ((mlx->mandel_size.max.a - mlx->mandel_size.min.a)
@@ -21,14 +38,14 @@ t_point	convert_point_repere(t_mlx *mlx, t_point point)
 	return (point);
 }
 
-t_point	apply_change(t_mlx *mlx, t_point point)
-{
-	point.a *= mlx->zoom_factor;
-	point.b *= mlx->zoom_factor;
+//t_point	apply_change(t_mlx *mlx, t_point point)
+//{
+//	point.a *= mlx->zoom_factor;
+//	point.b *= mlx->zoom_factor;
 //	point.a += mlx->cursor_pos.b;
 //	point.b += mlx->cursor_pos.b;
-	return (point);
-}
+//	return (point);
+//}
 
 void	mlx_pixel_put_img(t_data *img, int x, int y, int color)
 {

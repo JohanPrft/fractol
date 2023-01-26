@@ -48,11 +48,10 @@ typedef enum	e_mousecode
 
 typedef enum	e_keycode
 {
-	C = 8,
-	D = 2,
-	Q = 12,
 	W = 13,
-	E = 14,
+	A = 0,
+	S = 1,
+	D = 2,
 	ESQ = 53,
 	TAB = 48,
 	SPACE = 49,
@@ -62,16 +61,6 @@ typedef enum	e_keycode
 	RIGHT = 124,
 	DOWN = 125,
 	UP = 126,
-	NUM_0 = 82,
-	NUM_1 = 83,
-	NUM_2 = 84,
-	NUM_3 = 85,
-	NUM_4 = 86,
-	NUM_5 = 87,
-	NUM_6 = 88,
-	NUM_7 = 89,
-	NUM_8 = 91,
-	NUM_9 = 92,
 }				t_keycode;
 
 // impossible to use pointer on function because they need t_mlx
@@ -89,22 +78,33 @@ typedef struct	s_mlx
 	int				max_iter;
 	int 			smooth;
 	char 			fract_arg;
+	t_point			offset;
 }				t_mlx;
 
 
 
 t_mlx	init_all(t_mlx *mlx);
 void	mult_mandel_size(t_mlx *mlx, double x);
+void	add_mandel_size_x(t_mlx *mlx, double x);
+void	add_mandel_size_y(t_mlx *mlx, double x);
 
 t_point	convert_point_repere(t_mlx *mlx, t_point point);
 void	mlx_pixel_put_img(t_data *data, int x, int y, int color);
+
+int		key_hook(int keycode, t_mlx *mlx);
+int		hook(t_mlx *mlx);
+int		mouse_hook(int keycode, int x, int y, t_mlx *mlx);
 
 double	mandelbrot(t_mlx *mlx, t_point p);
 double	julia(t_mlx *mlx, t_point p);
 double	burning_ship(t_mlx *mlx, t_point c);
 
 t_point	make_point(double a, double b);
+void 	free_and_exit(t_mlx *mlx);
+int		arg_management(int argc, char **argv, t_mlx *mlx);
+
 void	draw_fract(t_mlx *mlx);
+void	compute_mandel_size(t_mlx *mlx);
 
 void	modif_image(t_coord_syst win_size, t_data	*img);/******************/
 

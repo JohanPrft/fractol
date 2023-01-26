@@ -42,8 +42,26 @@ void	mult_mandel_size(t_mlx *mlx, double x)
 	mlx->mandel_size.min.b *= x;
 	mlx->mandel_size.max.a *= x;
 	mlx->mandel_size.max.b *= x;
+
+	printf("\n%f\n", mlx->mandel_size.min.a);
+	printf("%f\n", mlx->mandel_size.min.b);
+	printf("%f\n", mlx->mandel_size.max.a);
+	printf("%f\n", mlx->mandel_size.max.b);
 }
 
+void	add_mandel_size_x(t_mlx *mlx, double x)
+{
+	mlx->offset.a += x;
+	mlx->mandel_size.min.a += x;
+	mlx->mandel_size.max.a += x;
+}
+
+void	add_mandel_size_y(t_mlx *mlx, double x)
+{
+	mlx->offset.b += x;
+	mlx->mandel_size.min.b += x;
+	mlx->mandel_size.max.b += x;
+}
 
 t_mlx	init_all(t_mlx *mlx)
 {
@@ -55,6 +73,8 @@ t_mlx	init_all(t_mlx *mlx)
 	mlx->max_iter = 30;
 	mlx->smooth = 1;
 	mlx->mlx = mlx_init();
+	mlx->offset.a = 0;
+	mlx->offset.b = 0;
 	return (*mlx);
 }
 

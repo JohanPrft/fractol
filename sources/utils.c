@@ -1,62 +1,56 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jprofit <jprofit@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 16:43:00 by jprofit           #+#    #+#             */
-/*   Updated: 2023/01/25 16:43:00 by jprofit          ###   ########.fr       */
+/*   Created: 2023/01/26 09:29:00 by jprofit           #+#    #+#             */
+/*   Updated: 2023/01/26 09:29:00 by jprofit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ft_is_number(char c)
+#include "../include/fractol.h"
+
+t_point	make_point(double a, double b)
 {
-	if (c >= '0' && c <= '9')
-		return (1);
-	return (0);
+	t_point	point;
+
+	point.a = a;
+	point.b = b;
+	return (point);
 }
 
-static int	ft_is_whitespace(char c)
+void free_and_exit(t_mlx *mlx)
 {
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
+	//mlx_destroy_image(mlx->mlx, &mlx->img);
+	mlx_destroy_window(mlx->mlx, mlx->win);
+	exit(0);
 }
 
-long	ft_atoi(const char *str)
+int	arg_management(int argc, char **argv, t_mlx *mlx)
 {
-	long	res;
-	long	sign;
-
-	sign = 1;
-	res = 0;
-	while (ft_is_whitespace(*str))
-		str++;
-	if (*str == '-' || *str == '+')
+	if (argc < 2 || argc > 3)
+		return (0);
+	if (argv[1][0] == 'm' && argv[1][1] == '\0')
 	{
-		if (*str == '-')
-			sign *= -1;
-		str++;
+		if (argc > 2)
+			return (0);
+		mlx->divergent_speed = mandelbrot;
 	}
-	while (ft_is_number(*str))
+	else if (argv[1][0] == 'j' && argv[1][1] == '\0')
 	{
-		res = (res * 10) + (*str - '0');
-		str++;
+		if (argc == 3 && ((argv[2][0] < '0' || argv[2][0] > '4') || argv[2][1] != '\0'))
+			return (0);
+		else if (argc == 3)
+			mlx->fract_arg = argv[2][0];
+		mlx->divergent_speed = julia;
 	}
-	return (sign * res);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, long n)
-{
-	long	i;
-
-	i = 0;
-	while (i < n && (s1[i] || s2[i]))
+	else if (argv[1][0] == 'b' && argv[1][1] == '\0')
 	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
+		if (argc > 2)
+			return (0);
+		mlx->divergent_speed = burning_ship;
 	}
-	return (0);
+	return (1);
 }
