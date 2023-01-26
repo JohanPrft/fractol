@@ -18,35 +18,35 @@
 # include <math.h>
 # include <stdio.h> ///////////
 
-typedef struct	s_data {
+typedef struct s_data {
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 
-typedef struct	s_point
+typedef struct s_point
 {
 	double	a;
 	double	b;
-}				t_point;
+}	t_point;
 
-typedef struct	s_coord_syst
+typedef struct s_coord_syst
 {
 	t_point	min;
 	t_point	max;
-}				t_coord_syst;
+}	t_coord_syst;
 
-typedef enum	e_mousecode
+typedef enum e_mousecode
 {
 	LEFT_CLICK = 1,
 	RIGHT_CLICK = 2,
 	SCROLL_IN = 4,
 	SCROLL_OUT = 5,
-}				t_mousecode;
+}	t_mousecode;
 
-typedef enum	e_keycode
+typedef enum e_keycode
 {
 	W = 13,
 	A = 0,
@@ -61,27 +61,25 @@ typedef enum	e_keycode
 	RIGHT = 124,
 	DOWN = 125,
 	UP = 126,
-}				t_keycode;
+}	t_keycode;
 
 // impossible to use pointer on function because they need t_mlx
-typedef struct	s_mlx
+typedef struct s_mlx
 {
 	int				fract_nb;
 	void			*mlx;
 	void			*win;
-	double 			(*divergent_speed)(struct s_mlx *, t_point);
+	double			(*divergent_speed)(struct s_mlx *, t_point);
 	t_coord_syst	win_size;
 	t_coord_syst	mandel_size;
 	t_data			img;
 	double			zoom_factor;
 	t_point			cursor_pos;
 	int				max_iter;
-	int 			smooth;
-	char 			fract_arg;
+	int				smooth;
+	char			fract_arg;
 	t_point			offset;
-}				t_mlx;
-
-
+}	t_mlx;
 
 t_mlx	init_all(t_mlx *mlx);
 void	mult_mandel_size(t_mlx *mlx, double x);
@@ -100,12 +98,15 @@ double	julia(t_mlx *mlx, t_point p);
 double	burning_ship(t_mlx *mlx, t_point c);
 
 t_point	make_point(double a, double b);
-void 	free_and_exit(t_mlx *mlx);
+void	free_and_exit(t_mlx *mlx);
 int		arg_management(int argc, char **argv, t_mlx *mlx);
 
 void	draw_fract(t_mlx *mlx);
 void	compute_mandel_size(t_mlx *mlx);
 
 void	modif_image(t_coord_syst win_size, t_data	*img);/******************/
+void	add_iteration(t_mlx *mlx);
+void	sub_iteration(t_mlx *mlx);
+int		create_trgb(int t, int r, int g, int b);
 
 #endif

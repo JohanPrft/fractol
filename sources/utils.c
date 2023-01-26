@@ -21,9 +21,9 @@ t_point	make_point(double a, double b)
 	return (point);
 }
 
-void free_and_exit(t_mlx *mlx)
+void	free_and_exit(t_mlx *mlx)
 {
-	//mlx_destroy_image(mlx->mlx, &mlx->img);
+	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
 }

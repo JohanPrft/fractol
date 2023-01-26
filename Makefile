@@ -29,7 +29,7 @@ DIR_HEADERS		=	include/
 HEADERS_LIST	=	fractol.h
 
 SRCS_LIST		=	main.c		init.c		draw.c		fractales.c			\
-					hooks.c		utils.c
+					hooks.c		utils.c		color.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
