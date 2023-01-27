@@ -37,7 +37,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 # ---- Compilation ---- #
 
-CFLAGS			=	-Wall -Wextra -Werror -g
+CFLAGS			=	-Wall -Wextra -Werror -g -Ofast
 
 LIBRARY			=	-L${MLX_PATH} -lmlx
 

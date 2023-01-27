@@ -33,7 +33,7 @@ int	key_hook(int keycode, t_mlx *mlx)
 	if (keycode == ESQ)
 		free_and_exit(mlx);
 	hook_moove(keycode, mlx);
-	hook_zoom(keycode, mlx);
+	hook_zoom_iter(keycode, mlx);
 	hook_rgb(keycode, mlx);
 	draw_fract(mlx);
 	return (1);

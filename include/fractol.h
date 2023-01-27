@@ -99,7 +99,7 @@ void	free_and_exit(t_mlx *mlx);
 void	add_iteration(t_mlx *mlx);
 void	sub_iteration(t_mlx *mlx);
 void	mult_mandel_size(t_mlx *mlx, double x);
-void	hook_zoom(int keycode, t_mlx *mlx);
+void	hook_zoom_iter(int keycode, t_mlx *mlx);
 void	hook_moove(int keycode, t_mlx *mlx);
 
 // hooks.c

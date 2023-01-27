@@ -14,10 +14,10 @@
 
 void	add_iteration(t_mlx *mlx)
 {
-	if (mlx->max_iter < 60)
+	if (mlx->max_iter < 150)
 		mlx->max_iter++;
 	else
-		mlx->max_iter = 59;
+		mlx->max_iter = 149;
 }
 
 void	sub_iteration(t_mlx *mlx)
@@ -25,7 +25,7 @@ void	sub_iteration(t_mlx *mlx)
 	if (mlx->max_iter > 20)
 		mlx->max_iter--;
 	else
-		mlx->max_iter = 21;
+		mlx->max_iter = 19;
 }
 
 void	mult_mandel_size(t_mlx *mlx, double x)
@@ -52,16 +52,20 @@ void	hook_moove(int keycode, t_mlx *mlx)
 		0.05 * (mlx->mandel_size.max.a - mlx->mandel_size.min.a);
 }
 
-void	hook_zoom(int keycode, t_mlx *mlx)
+void	hook_zoom_iter(int keycode, t_mlx *mlx)
 {
-	if (keycode == O || keycode == MINUS)
+	if (keycode == O)
 	{
 		mult_mandel_size(mlx, 1.2);
 		sub_iteration(mlx);
 	}
-	else if (keycode == P || keycode == PLUS)
+	else if (keycode == P)
 	{
 		mult_mandel_size(mlx, 0.8);
 		add_iteration(mlx);
 	}
+	else if (keycode == PLUS)
+		add_iteration(mlx);
+	else if (keycode == MINUS)
+		sub_iteration(mlx);
 }
