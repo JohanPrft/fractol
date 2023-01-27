@@ -12,6 +12,11 @@
 
 #include "../include/fractol.h"
 
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 t_point	make_point(double a, double b)
 {
 	t_point	point;
@@ -21,36 +26,33 @@ t_point	make_point(double a, double b)
 	return (point);
 }
 
+int	set_fractale(t_mlx *mlx, char c, char preset)
+{
+	if (c == 'm')
+		mlx->divergent_speed = mandelbrot;
+	else if (c == 'j')
+	{
+		mlx->fract_arg = preset;
+		mlx->divergent_speed = julia;
+	}
+	else if (c == 'b')
+		mlx->divergent_speed = burning_ship;
+	return (1);
+}
+
+int	ft_strlen(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 void	free_and_exit(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx, mlx->img.img);
 	mlx_destroy_window(mlx->mlx, mlx->win);
 	exit(0);
-}
-
-int	arg_management(int argc, char **argv, t_mlx *mlx)
-{
-	if (argc < 2 || argc > 3)
-		return (0);
-	if (argv[1][0] == 'm' && argv[1][1] == '\0')
-	{
-		if (argc > 2)
-			return (0);
-		mlx->divergent_speed = mandelbrot;
-	}
-	else if (argv[1][0] == 'j' && argv[1][1] == '\0')
-	{
-		if (argc == 3 && ((argv[2][0] < '0' || argv[2][0] > '4') || argv[2][1] != '\0'))
-			return (0);
-		else if (argc == 3)
-			mlx->fract_arg = argv[2][0];
-		mlx->divergent_speed = julia;
-	}
-	else if (argv[1][0] == 'b' && argv[1][1] == '\0')
-	{
-		if (argc > 2)
-			return (0);
-		mlx->divergent_speed = burning_ship;
-	}
-	return (1);
 }

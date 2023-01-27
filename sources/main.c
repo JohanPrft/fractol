@@ -12,20 +12,26 @@
 
 #include "../include/fractol.h"
 
+void	explicative_instruction(void)
+{
+	write(1, "Hey !\nYou can choose your fractal at startup : \n", 48);
+	write(1, "m for Mandelbrot, j for Julia or b for Burning ship.\n", 53);
+	write(1, "Presets available for Julia (add 0 to 4).\n", 43);
+}
+
 int	main(int argc, char **argv)
 {
 	t_mlx	mlx;
 
-	(void)argc;
-	(void)argv;
+	explicative_instruction();
 	if (!arg_management(argc, argv, &mlx))
 	{
-		write(2, "Please input \"M\" for Mandelbrot or \"J\" for Julia\n", 49);
+		write(2, "\n!! Please input a correct parameter !!\n", 40);
 		return (0);
 	}
 	init_all(&mlx);
 	mlx.win = mlx_new_window(mlx.mlx, (int)mlx.win_size.max.a, \
-	(int)mlx.win_size.max.b, "🥵🥵🥵");
+	(int)mlx.win_size.max.b, "fractol");
 	mlx.img.img = mlx_new_image(mlx.mlx, (int)mlx.win_size.max.a, \
 	(int)mlx.win_size.max.b);
 	mlx.img.addr = mlx_get_data_addr(mlx.img.img, &mlx.img.bits_per_pixel, \

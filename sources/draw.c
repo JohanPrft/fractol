@@ -14,40 +14,26 @@
 
 t_point	convert_point_repere(t_mlx *mlx, t_point point)
 {
-	//point.a += mlx->offset.a;
-	//point.b += mlx->offset.b;
 	point.a = point.a * ((mlx->mandel_size.max.a - mlx->mandel_size.min.a)
 			/ mlx->win_size.max.a) - mlx->mandel_size.max.a;
 	point.b = point.b * ((mlx->mandel_size.max.b - mlx->mandel_size.min.b)
 			/ mlx->win_size.max.b) - mlx->mandel_size.max.b;
+	point.a -= mlx->offset.a;
+	point.b -= mlx->offset.b;
 	return (point);
 }
 
+// offset to know where to write in memory
 void	mlx_pixel_put_img(t_data *img, int x, int y, int color)
 {
 	char	*dst;
+	int		offset;
 
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	offset = y * img->line_length + x * (img->bits_per_pixel / 8);
+	dst = img->addr + offset;
 	*(unsigned int *)dst = color;
 }
 
-void	add_iteration(t_mlx *mlx)
-{
-	if (mlx->max_iter < 50)
-		mlx->max_iter++;
-	else
-		mlx->max_iter = 49;
-}
-
-void	sub_iteration(t_mlx *mlx)
-{
-	if (mlx->max_iter > 5)
-		mlx->max_iter--;
-	else
-		mlx->max_iter = 6;
-}
-
-//0xFF00FFF
 void	draw_fract(t_mlx *mlx)
 {
 	int		i;
@@ -61,7 +47,8 @@ void	draw_fract(t_mlx *mlx)
 		while (--j >= 0)
 		{
 			div = (*mlx->divergent_speed)(mlx, make_point(j, i));
-			mlx_pixel_put_img(&mlx->img, j, i, create_trgb(0, 255 * div, 0, 0));
+			mlx_pixel_put_img(&mlx->img, j, i, \
+			create_trgb(0, div * mlx->r, div * mlx->g, div * mlx->b));
 		}
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);

@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
-# include <stdio.h> ///////////
 
 typedef struct s_data {
 	void	*img;
@@ -52,6 +51,11 @@ typedef enum e_keycode
 	A = 0,
 	S = 1,
 	D = 2,
+	O = 31,
+	P = 35,
+	R = 15,
+	G = 5,
+	B = 11,
 	ESQ = 53,
 	TAB = 48,
 	SPACE = 49,
@@ -63,50 +67,53 @@ typedef enum e_keycode
 	UP = 126,
 }	t_keycode;
 
-// impossible to use pointer on function because they need t_mlx
 typedef struct s_mlx
 {
-	int				fract_nb;
 	void			*mlx;
 	void			*win;
 	double			(*divergent_speed)(struct s_mlx *, t_point);
 	t_coord_syst	win_size;
 	t_coord_syst	mandel_size;
 	t_data			img;
-	double			zoom_factor;
 	t_point			cursor_pos;
 	int				max_iter;
-	int				smooth;
 	char			fract_arg;
 	t_point			offset;
+	float			r;
+	float			g;
+	float			b;
 }	t_mlx;
 
+// init.c
+int		arg_management(int argc, char **argv, t_mlx *mlx);
 t_mlx	init_all(t_mlx *mlx);
+
+// utils.c
+int		create_trgb(int t, int r, int g, int b);
+int		set_fractale(t_mlx *mlx, char c, char preset);
+int		ft_strlen(const char *str);
+t_point	make_point(double a, double b);
+void	free_and_exit(t_mlx *mlx);
+
+// utils_hook.c
+void	add_iteration(t_mlx *mlx);
+void	sub_iteration(t_mlx *mlx);
 void	mult_mandel_size(t_mlx *mlx, double x);
-void	add_mandel_size_x(t_mlx *mlx, double x);
-void	add_mandel_size_y(t_mlx *mlx, double x);
+void	hook_zoom(int keycode, t_mlx *mlx);
+void	hook_moove(int keycode, t_mlx *mlx);
 
-t_point	convert_point_repere(t_mlx *mlx, t_point point);
-void	mlx_pixel_put_img(t_data *data, int x, int y, int color);
-
+// hooks.c
 int		key_hook(int keycode, t_mlx *mlx);
 int		hook(t_mlx *mlx);
 int		mouse_hook(int keycode, int x, int y, t_mlx *mlx);
 
-double	mandelbrot(t_mlx *mlx, t_point p);
-double	julia(t_mlx *mlx, t_point p);
-double	burning_ship(t_mlx *mlx, t_point c);
-
-t_point	make_point(double a, double b);
-void	free_and_exit(t_mlx *mlx);
-int		arg_management(int argc, char **argv, t_mlx *mlx);
-
+// draw.c
 void	draw_fract(t_mlx *mlx);
-void	compute_mandel_size(t_mlx *mlx);
+t_point	convert_point_repere(t_mlx *mlx, t_point point);
 
-void	modif_image(t_coord_syst win_size, t_data	*img);/******************/
-void	add_iteration(t_mlx *mlx);
-void	sub_iteration(t_mlx *mlx);
-int		create_trgb(int t, int r, int g, int b);
+// fractales.c
+double	mandelbrot(t_mlx *mlx, t_point c);
+double	julia(t_mlx *mlx, t_point c);
+double	burning_ship(t_mlx *mlx, t_point c);
 
 #endif

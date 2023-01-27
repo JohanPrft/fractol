@@ -28,8 +28,8 @@ DIR_HEADERS		=	include/
 
 HEADERS_LIST	=	fractol.h
 
-SRCS_LIST		=	main.c		init.c		draw.c		fractales.c			\
-					hooks.c		utils.c		color.c
+SRCS_LIST		=	main.c		init.c		draw.c		fractals.c			\
+					hooks.c		utils.c		utils_hook.c
 
 HEADERS			=	${HEADERS_LIST:%.h=${DIR_HEADERS}%.h}
 
@@ -74,7 +74,7 @@ opti			:
 
 # ---- Variables Rules ---- #
 
-${NAME}			:	${DIR_OBJS} ${OBJS} ${HEADERS} ${MLX}
+${NAME}			:	${MLX} ${DIR_OBJS} ${OBJS} ${HEADERS}
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} ${OBJS} ${LIBRARY} -o ${NAME}
 
 # ---- Lib rules ---- #
@@ -86,7 +86,7 @@ FORCE			:
 
 # ---- Compiled Rules ---- #
 
-${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c
+${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c ${HEADERS}
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} -c $< -o $@
 
 ${DIR_OBJS}		:

@@ -12,34 +12,27 @@
 
 #include "../include/fractol.h"
 
-/*
- * définie comme l'ensemble des points c pour lesquels la suite définie par
- * récurrence est bornee :
- * Z0 = 0
- * Zn+1 = Zn^2 + c
-*/
 double	mandelbrot(t_mlx *mlx, t_point c)
 {
 	t_point	z;
-	t_point	z_carre;
+	t_point	z_square;
 	int		i;
 
 	c = convert_point_repere(mlx, c);
 	z = make_point(0, 0);
-	z_carre = make_point(z.a * z.a, z.b * z.b);
+	z_square = make_point(z.a * z.a, z.b * z.b);
 	i = 0;
 	while (++i < mlx->max_iter)
 	{
-		z = make_point(z_carre.a - z_carre.b + c.a, 2 * z.a * z.b + c.b);
-		z_carre = make_point(z.a * z.a, z.b * z.b);
-		if (z_carre.a + z_carre.b > 4)
+		z = make_point(z_square.a - z_square.b + c.a, 2 * z.a * z.b + c.b);
+		z_square = make_point(z.a * z.a, z.b * z.b);
+		if (z_square.a + z_square.b > 4)
 		{
 			return ((double)i / mlx->max_iter);
 		}
 	}
 	return (0);
 }
-// 			return ((double)i / mlx->max_iter / 4);
 
 t_point	choose_preset(t_mlx *mlx)
 {
@@ -61,21 +54,21 @@ t_point	choose_preset(t_mlx *mlx)
 double	julia(t_mlx *mlx, t_point c)
 {
 	t_point	z;
-	t_point	z_carre;
+	t_point	z_square;
 	t_point	preset;
 	int		i;
 
 	preset = choose_preset(mlx);
 	c = convert_point_repere(mlx, c);
 	z = c;
-	z_carre = make_point(z.a * z.a, z.b * z.b);
+	z_square = make_point(z.a * z.a, z.b * z.b);
 	i = 0;
 	while (++i < mlx->max_iter)
 	{
-		z = make_point(z_carre.a - z_carre.b + preset.a, \
+		z = make_point(z_square.a - z_square.b + preset.a, \
 		2 * z.a * z.b + preset.b);
-		z_carre = make_point(z.a * z.a, z.b * z.b);
-		if (z_carre.a + z_carre.b > 4)
+		z_square = make_point(z.a * z.a, z.b * z.b);
+		if (z_square.a + z_square.b > 4)
 		{
 			return ((double)i / mlx->max_iter);
 		}
@@ -86,19 +79,19 @@ double	julia(t_mlx *mlx, t_point c)
 double	burning_ship(t_mlx *mlx, t_point c)
 {
 	t_point	z;
-	t_point	z_carre;
+	t_point	z_square;
 	int		i;
 
 	c = convert_point_repere(mlx, c);
 	z = make_point(0, 0);
-	z_carre = make_point(z.a * z.a, z.b * z.b);
+	z_square = make_point(z.a * z.a, z.b * z.b);
 	i = 0;
 	while (++i < mlx->max_iter)
 	{
-		z = make_point(fabs(z_carre.a) - fabs(z_carre.b) + c.a, \
+		z = make_point(fabs(z_square.a) - fabs(z_square.b) + c.a, \
 		2 * fabs(z.a) * fabs(z.b) + c.b);
-		z_carre = make_point(z.a * z.a, z.b * z.b);
-		if (z_carre.a + z_carre.b > 4)
+		z_square = make_point(z.a * z.a, z.b * z.b);
+		if (z_square.a + z_square.b > 4)
 		{
 			return ((double)i / mlx->max_iter);
 		}
