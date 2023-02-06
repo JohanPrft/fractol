@@ -6,7 +6,7 @@
 #    By: imac <imac@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 10:15:50 by jprofit           #+#    #+#              #
-#    Updated: 2023/01/23 10:38:00 by imac             ###   ########.fr        #
+#    Updated: 2023/02/03 12:59:28 by jprofit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ OBJS			=	${SRCS_LIST:%.c=${DIR_OBJS}%.o}
 
 # ---- Compilation ---- #
 
-CFLAGS			=	-Wall -Wextra -Werror -g -Ofast
+CFLAGS			=	-Wall -Wextra -Werror -Ofast
 
 LIBRARY			=	-L${MLX_PATH} -lmlx
 
@@ -69,9 +69,6 @@ RM				=	rm -rf
 
 all				:	${NAME}
 
-opti			:
-					${MAKE} ${NAME} CFLAGS="-Wall -Wextra -Werror -fsanitize=address -O2"
-
 # ---- Variables Rules ---- #
 
 ${NAME}			:	${MLX} ${DIR_OBJS} ${OBJS} ${HEADERS}
@@ -86,7 +83,7 @@ FORCE			:
 
 # ---- Compiled Rules ---- #
 
-${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c ${HEADERS}
+${OBJS}			:	${DIR_OBJS}%.o:	${DIR_SRCS}%.c ${HEADERS} Makefile
 					${CC} ${CFLAGS} -I ${DIR_HEADERS} -c $< -o $@
 
 ${DIR_OBJS}		:
@@ -96,9 +93,6 @@ ${DIR_OBJS}		:
 
 run				:	all
 					./${NAME}
-
-leaks			:	all
-					leaks --atExit -- ./${NAME}
 
 clean			:
 					${RM} ${OBJS}

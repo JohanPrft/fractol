@@ -6,13 +6,13 @@
 /*   By: jprofit <jprofit@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 09:35:00 by jprofit           #+#    #+#             */
-/*   Updated: 2023/01/16 09:35:00 by jprofit          ###   ########.fr       */
+/*   Updated: 2023/02/03 12:55:39 by jprofit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# include "../mlx/macos/mlx.h"
+# include "../mlx/linux/mlx.h"
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
@@ -47,24 +47,24 @@ typedef enum e_mousecode
 
 typedef enum e_keycode
 {
-	W = 13,
-	A = 0,
-	S = 1,
-	D = 2,
-	O = 31,
-	P = 35,
-	R = 15,
-	G = 5,
-	B = 11,
-	ESQ = 53,
+	W = 119,
+	A = 97,
+	S = 115,
+	D = 100,
+	O = 111,
+	P = 112,
+	R = 114,
+	G = 103,
+	B = 98,
+	ESQ = 65307,
 	TAB = 48,
 	SPACE = 49,
-	PLUS = 69,
-	MINUS = 78,
-	LEFT = 123,
-	RIGHT = 124,
-	DOWN = 125,
-	UP = 126,
+	PLUS = 65451,
+	MINUS = 65454,
+	LEFT = 65361,
+	RIGHT = 65363,
+	DOWN = 65364,
+	UP = 65362,
 }	t_keycode;
 
 typedef struct s_mlx
